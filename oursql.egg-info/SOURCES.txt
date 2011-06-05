@@ -1,0 +1,7 @@
+setup.py
+oursql.egg-info/PKG-INFO
+oursql.egg-info/SOURCES.txt
+oursql.egg-info/dependency_links.txt
+oursql.egg-info/top_level.txt
+oursqlx/compat.c
+oursqlx/oursql.pyx
