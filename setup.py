@@ -225,7 +225,7 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: C',
         'Programming Language :: Cython',
-        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 3',
         'Topic :: Database :: Database Engines/Servers',
     ],
     

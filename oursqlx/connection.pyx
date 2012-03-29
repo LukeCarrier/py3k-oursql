@@ -14,7 +14,7 @@ cdef class Connection:
         shared_memory_base_name=None, local_infile=False, 
         require_secure_auth=False, report_truncation=True, compress=False, 
         found_rows=True, use_unicode=True, charset='utf8', autoping=False, 
-        default_cursor=None, raise_on_warnings=True)
+        default_cursor=None, raise_on_warnings=True, autoreconnect=False)
     
     Connect to the MySQL database. The first three parameters may be passed by 
     position, but the rest may only be passed by keyword. All options except 
@@ -83,7 +83,7 @@ cdef class Connection:
             bint found_rows=True, bint use_unicode=True, charset='utf8', 
             bint autoping=False, default_cursor=None, 
             bint raise_on_warnings=True, bint multi_results=True, 
-            bint multi_statements=True):
+            bint multi_statements=True, bint autoreconnect=False):
         cdef unsigned long flags = 0
         cdef unsigned int uint_tmp
         cdef my_bool bool_tmp
@@ -161,6 +161,9 @@ cdef class Connection:
                 bytes_or_null(user), bytes_or_null(passwd), bytes_or_null(db), 
                 port, bytes_or_null(unix_socket), flags):
             self._raise_error()
+        if autoreconnect:
+            bool_tmp = True
+            mysql_options(self.conn, MYSQL_OPT_RECONNECT, <char *>&bool_tmp)
         self.charset
         self.use_unicode = use_unicode
         self.autoping = autoping

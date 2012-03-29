@@ -154,6 +154,17 @@ cdef extern from "mysql.h" nogil:
         MYSQL_SET_CHARSET_DIR
         MYSQL_SET_CHARSET_NAME
         MYSQL_SHARED_MEMORY_BASE_NAME
+        MYSQL_OPT_READ_TIMEOUT
+        MYSQL_OPT_WRITE_TIMEOUT
+        MYSQL_OPT_USE_RESULT
+        MYSQL_OPT_USE_REMOTE_CONNECTION
+        MYSQL_OPT_USE_EMBEDDED_CONNECTION
+        MYSQL_OPT_GUESS_CONNECTION
+        MYSQL_SET_CLIENT_IP
+        MYSQL_SECURE_AUTH
+        MYSQL_REPORT_DATA_TRUNCATION
+        MYSQL_OPT_RECONNECT
+        MYSQL_OPT_SSL_VERIFY_SERVER_CERT
     
     enum mysql_protocol_type:
         MYSQL_PROTOCOL_DEFAULT
@@ -235,7 +246,7 @@ cdef extern from "mysql.h" nogil:
     my_bool mysql_stmt_bind_result(MYSQL_STMT *, MYSQL_BIND *bind)
     unsigned long mysql_stmt_param_count(MYSQL_STMT *)
     int _mysql_stmt_execute "mysql_stmt_execute" (MYSQL_STMT *)
-    int mysql_stmt_fetch(MYSQL_STMT *)
+    int _mysql_stmt_fetch "mysql_stmt_fetch" (MYSQL_STMT *)
     my_ulonglong mysql_stmt_affected_rows(MYSQL_STMT *)
     my_ulonglong mysql_stmt_insert_id(MYSQL_STMT *)
     my_bool _mysql_stmt_send_long_data "mysql_stmt_send_long_data" (MYSQL_STMT *, 
@@ -251,14 +262,15 @@ cdef extern from "mysql.h" nogil:
     MYSQL_FIELD *mysql_fetch_field_direct(MYSQL_RES *, unsigned int fieldnr)
     void mysql_free_result(MYSQL_RES *)
     
-    int mysql_real_query(MYSQL *, char *stmt_str, unsigned long length)
+    int _mysql_real_query "mysql_real_query" (MYSQL *, char *stmt_str, 
+        unsigned long length)
     unsigned int mysql_field_count(MYSQL *)
-    MYSQL_RES *mysql_use_result(MYSQL *)
-    MYSQL_RES *mysql_store_result(MYSQL *)
-    int mysql_next_result(MYSQL *)
+    MYSQL_RES *_mysql_use_result "mysql_use_result" (MYSQL *)
+    MYSQL_RES *_mysql_store_result "mysql_store_result" (MYSQL *)
+    int _mysql_next_result "mysql_next_result" (MYSQL *)
     my_ulonglong mysql_insert_id(MYSQL *)
     my_ulonglong mysql_affected_rows(MYSQL *)
-    MYSQL_ROW mysql_fetch_row(MYSQL_RES *)
+    MYSQL_ROW _mysql_fetch_row "mysql_fetch_row" (MYSQL_RES *)
     unsigned long *mysql_fetch_lengths(MYSQL_RES *)
     
     char *mysql_get_client_info()

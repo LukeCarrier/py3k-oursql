@@ -140,7 +140,7 @@ cdef class Cursor:
             # I know we should get all values -1 or all values >= 0.
             rowcount += stmt.rowcount
         # Whatevs.
-        if rowcount < -1:
+        if rowcount < 0:
             rowcount = -1
         self._update_fields(stmt, rowcount)
     

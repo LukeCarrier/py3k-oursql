@@ -115,6 +115,7 @@ cdef class _Statement:
     def __dealloc__(self):
         self.close()
         PyMem_Free(self.result_data)
+        PyMem_Free(self.bind)
     
     def close(self):
         if self.stmt:
@@ -123,6 +124,8 @@ cdef class _Statement:
     
     cdef int _raise_error(self) except -1:
         cdef int err = mysql_stmt_errno(self.stmt)
+        # effect a sideeffect by looking up the charset, required for
+        # _decode_char_p
         self.conn.charset
         raise _exception_from_errno(err)(
             self.conn._decode_char_p(mysql_stmt_error(self.stmt)), err)
@@ -195,6 +198,7 @@ cdef class _Statement:
             # We only want to free the buffers if there was a failure and we 
             # can't use 'em.
             PyMem_Free(result_data)
+            PyMem_Free(bind)
             raise
         else:
             # And we only want to save the buffers if there was no failure.
@@ -488,7 +492,12 @@ cdef class _Statement:
                         val = val.decode(self.conn._charset)
             elif c.type in (MYSQL_TYPE_DECIMAL, MYSQL_TYPE_NEWDECIMAL):
                 val = decimal.Decimal(
-                    PyBytes_FromStringAndSize(d.dec, c.length).decode(self.conn._charset))
+                PyBytes_FromStringAndSize(d.dec, c.length).decode(self.conn._charset))
+            # Sometimes mysql likes to give back invalid data instead of doing
+            # anything sensible.
+            elif c.type in (MYSQL_TYPE_DATETIME, MYSQL_TYPE_TIMESTAMP, 
+                    MYSQL_TYPE_DATE) and d.t.year == 0:
+                val = None
             elif c.type in (MYSQL_TYPE_DATETIME, MYSQL_TYPE_TIMESTAMP):
                 val = PyDateTime_FromDateAndTime(d.t.year, d.t.month, d.t.day, 
                     d.t.hour, d.t.minute, d.t.second, d.t.second_part)

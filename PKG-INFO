@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: oursql
-Version: 0.9.2
+Version: 0.9.3
 Summary: MySQL bindings for python.
 Home-page: http://launchpad.net/oursql
 Author: Aaron Gallagher
@@ -22,5 +22,5 @@ Classifier: License :: OSI Approved :: BSD License
 Classifier: Operating System :: OS Independent
 Classifier: Programming Language :: C
 Classifier: Programming Language :: Cython
-Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 3
 Classifier: Topic :: Database :: Database Engines/Servers

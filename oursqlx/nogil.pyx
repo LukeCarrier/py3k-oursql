@@ -30,6 +30,10 @@ cdef inline int mysql_stmt_execute(MYSQL_STMT *stmt):
     with nogil:
         return _mysql_stmt_execute(stmt)
 
+cdef inline int mysql_stmt_fetch(MYSQL_STMT *stmt):
+    with nogil:
+        return _mysql_stmt_fetch(stmt)
+
 cdef inline my_bool mysql_stmt_send_long_data(MYSQL_STMT *stmt, 
         unsigned int index, char *data, unsigned long length):
     with nogil:
@@ -43,3 +47,24 @@ cdef inline int mysql_stmt_fetch_column(MYSQL_STMT *stmt,
 cdef inline int mysql_stmt_store_result(MYSQL_STMT *stmt):
     with nogil:
         return _mysql_stmt_store_result(stmt)
+
+cdef inline int mysql_real_query(MYSQL *conn, char *stmt_str, 
+        unsigned long length):
+    with nogil:
+        return _mysql_real_query(conn, stmt_str, length)
+
+cdef inline MYSQL_RES *mysql_use_result(MYSQL *conn):
+    with nogil:
+        return _mysql_use_result(conn)
+
+cdef inline MYSQL_RES *mysql_store_result(MYSQL *conn):
+    with nogil:
+        return _mysql_store_result(conn)
+
+cdef inline int mysql_next_result(MYSQL *conn):
+    with nogil:
+        return _mysql_next_result(conn)
+
+cdef inline MYSQL_ROW mysql_fetch_row(MYSQL_RES *result):
+    with nogil:
+        return _mysql_fetch_row(result)
