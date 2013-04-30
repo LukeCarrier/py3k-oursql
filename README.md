@@ -1,4 +1,4 @@
-oursql v0.9.2 (for Python 3)!
+oursql v0.9.3 (for Python 3)!
 =============================
 
 About this fork

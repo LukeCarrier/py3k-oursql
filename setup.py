@@ -204,7 +204,7 @@ oursql_commands['zipwithlicense'] = ZipWithLicense
 
 setup(
     name='oursql',
-    version='0.9.2',
+    version='0.9.3',
     author='Aaron Gallagher',
     author_email='habnabit@gmail.com',
     url='http://launchpad.net/oursql',
